@@ -15,13 +15,18 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('display_movies', 'WelcomeController@displayTable');
+
 Route::get('testasdf', function()
 {
 	//return 'ewfaewf';
 	//return (DB::select('select * from movies;'));
 	//return var_dump(App\Movie::findOrFail(1)->title);
 	return dd(App\Movie::all()->toArray());
+	//return $this->dispatch(new updateRottenRating());
 });
+
+Route::get('testasdf2', 'WelcomeController@testFunction');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
