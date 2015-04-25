@@ -42,15 +42,26 @@ class WelcomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function displayTable()
+	public function displayTable($sortBy = 'title', $orderBy = 'ascend')
 	{
-		$movies = Movie::all();
+		if ($sortBy != 'title' && $sortBy != 'bought' && $sortBy != 'price' && $sortBy != 'bought_from' && $sortBy != 'notes') {
+			$sortBy = 'title';
+		}
+		
+		if ($orderBy != 'ascend' && $orderBy != 'desc') {
+			$orderBy = 'asc';
+		}
+		
+		$movies = Movie::all()->sortBy($sortBy);
 		
 		//echo $movies;
 		
 		//return "fewafwef";
 		//return dd($movies);
-		return view('displayTable', ['title' => 'Display Movies', 'movies' => $movies]);
+		return view('displayTable', ['title' => 'Display Movies', 
+			'movies' => $movies, 
+			//'sortBy' => $sortBy,
+			]);
 	}
 	
 	public function testFunction()

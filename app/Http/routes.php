@@ -15,7 +15,7 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::get('display_movies', 'WelcomeController@displayTable');
+Route::get('display_movies/{sortBy?}/{ascend?}', 'WelcomeController@displayTable');
 
 Route::get('testasdf', function()
 {
