@@ -44,12 +44,15 @@ class WelcomeController extends Controller {
 	 */
 	public function displayTable($sortBy = 'title', $orderBy = 'ascend')
 	{
-		if ($sortBy != 'title' && $sortBy != 'bought' && $sortBy != 'price' && $sortBy != 'bought_from' && $sortBy != 'notes') {
+		if ($sortBy != 'title' && $sortBy != 'bought' && $sortBy != 'price' && $sortBy != 'bought_from' && $sortBy != 'notes' && $sortBy != 'rt_rating') {
 			$sortBy = 'title';
 		}
 		
 		if ($orderBy != 'ascend' && $orderBy != 'desc') {
 			$orderBy = 'asc';
+			$orderLink = 'desc';
+		} else {
+			$orderLink = 'asc';
 		}
 		
 		$movies = Movie::all()->sortBy($sortBy);
@@ -60,6 +63,7 @@ class WelcomeController extends Controller {
 		//return dd($movies);
 		return view('displayTable', ['title' => 'Display Movies', 
 			'movies' => $movies, 
+			'orderLink' => $orderLink,
 			//'sortBy' => $sortBy,
 			]);
 	}

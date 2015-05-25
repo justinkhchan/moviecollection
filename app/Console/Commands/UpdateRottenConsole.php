@@ -22,7 +22,7 @@ class UpdateRottenConsole extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Updates Rotten Tomatoes Ratings';
+	protected $description = 'Updates Rotten Tomatoes Ratings, use option --onlyUndefs to only check undefined ratings';
 
 	/**
 	 * Create a new command instance.
@@ -47,7 +47,7 @@ class UpdateRottenConsole extends Command {
 		fwrite($file, "ppotyuioptuipoty");
 		fclose($file);
 		*/
-		Bus::dispatch(new UpdateRottenRating());
+		Bus::dispatch(new UpdateRottenRating($this->option('onlyUndefs')));
 	}
 
 	/**
@@ -70,7 +70,9 @@ class UpdateRottenConsole extends Command {
 	 */
 	protected function getOptions()
 	{
-		return [];
+		return [
+			['onlyUndefs', null, InputOption::VALUE_NONE, 'Only check undefined values'],
+		];
 		//return [
 		//	['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
 		//];

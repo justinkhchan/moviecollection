@@ -13,12 +13,24 @@
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
-								<th>Title</th>
-								<th>Date Bought</th>
-								<th>Price</th>
-								<th>Bought From</th>
-								<th>Rotten Tomatoes Rating</th>
-								<th>Notes</th>
+								<th>
+									<a href="/display_movies/title/{!! $orderLink !!}">Title</a>
+								</th>
+								<th>
+									<a href="/display_movies/bought/{!! $orderLink !!}">Date Bought</a>
+								</th>
+								<th>
+									<a href="/display_movies/price/{!! $orderLink !!}">Price</a>
+								</th>
+								<th>
+									<a href="/display_movies/bought_from/{!! $orderLink !!}">Bought From</a>
+								</th>
+								<th>
+									<a href="/display_movies/rt_rating/{!! $orderLink !!}">Rotten Tomatoes Rating</a>
+								</th>
+								<th>
+									<a href="/display_movies/notes/{!! $orderLink !!}">Notes</a>
+								</th>
 							</tr>
 						</thead>
 						<tbody>

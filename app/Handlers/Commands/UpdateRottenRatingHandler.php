@@ -9,16 +9,6 @@ use GuzzleHttp\Client;
 class UpdateRottenRatingHandler {
 
 	/**
-	 * Create the command handler.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		//
-	}
-
-	/**
 	 * Handle the command.
 	 *
 	 * @param  UpdateRottenRating  $command
@@ -27,7 +17,7 @@ class UpdateRottenRatingHandler {
 	public function handle(UpdateRottenRating $command)
 	{
 		//dd($command);
-		echo "handled!\n";
+		echo "handled!" . "\n";
 		$movies = Movie::all();
 		//$currMovie = Movie::find(1);
 		
@@ -37,28 +27,35 @@ class UpdateRottenRatingHandler {
 		
 		foreach($movies as $currMovie)
 		{
-			$response = $client->get('http://omdbapi.com/?tomatoes=true&t=' . $currMovie->title);
-			fwrite($file, $currMovie->title . "\n\t");
-			if ($response->getStatusCode() == 200) {
-				$jsonObj = json_decode($response->getBody());
-				$gotResponse = $jsonObj->Response;
-				if (isset($gotResponse) && $gotResponse == "True") {
-					$rtRating = $jsonObj->tomatoMeter;
-					if (isset($rtRating)) {
-						//fwrite($file, $currMovie->title . "\n\t" . $response->getBody() . "\n");
-						fwrite($file, $rtRating . "\n");
-						$currMovie->rt_rating = $rtRating;
-						$currMovie->save();
+			if (($currMovie->rt_rating == 0) || (is_null($currMovie->rt_rating)) || !$command->getOnlyUndefs()) {
+				$apiTitle = $currMovie->title;
+				if (!(is_null($currMovie->api_name))) {
+					$apiTitle = $currMovie->api_name;
+				}
+				
+				$response = $client->get('http://omdbapi.com/?tomatoes=true&t=' . $apiTitle);
+				fwrite($file, $currMovie->title . "\n\t");
+				if ($response->getStatusCode() == 200) {
+					$jsonObj = json_decode($response->getBody());
+					$gotResponse = $jsonObj->Response;
+					if (isset($gotResponse) && $gotResponse == "True") {
+						$rtRating = $jsonObj->tomatoMeter;
+						if (isset($rtRating)) {
+							//fwrite($file, $currMovie->title . "\n\t" . $response->getBody() . "\n");
+							fwrite($file, $rtRating . "\n");
+							$currMovie->rt_rating = $rtRating;
+							$currMovie->save();
+						} else {
+							fwrite($file, "no rating defined!" . "\n");
+						}
 					} else {
-						fwrite($file, "no rating defined!" . "\n");
+						fwrite($file, "movie not found!" . "\n");
 					}
 				} else {
-					fwrite($file, "movie not found!" . "\n");
+					fwrite($file, "not 200!" . "\n");
 				}
-			} else {
-				fwrite($file, "not 200!" . "\n");
+				sleep(1);
 			}
-			sleep(1);
 		}
 		
 		//fwrite($file, "wefwfwefkjlkjklwef");
