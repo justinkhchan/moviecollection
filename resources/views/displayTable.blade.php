@@ -29,7 +29,7 @@
 									<a href="/display_movies/rt_rating/{!! $orderLink !!}">Rotten Tomatoes Rating</a>
 								</th>
 								<th>
-									<a href="/display_movies/notes/{!! $orderLink !!}">Notes</a>
+									<a href="/display_movies/other_notes/{!! $orderLink !!}">Notes</a>
 								</th>
 							</tr>
 						</thead>
