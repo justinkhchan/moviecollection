@@ -50,7 +50,7 @@ class WelcomeController extends Controller {
 
 		$movies = [];
 		
-		if ($orderBy != 'ascend' && $orderBy != 'desc') {
+		if ($orderBy != 'descend' && $orderBy != 'desc') {
 			$orderBy = 'asc';
 			$orderLink = 'desc';
 			$movies = Movie::all()->sortBy($sortBy);

@@ -49,7 +49,7 @@ class UpdateRottenRatingHandler {
 							fwrite($file, "no rating defined!" . "\n");
 						}
 					} else {
-						fwrite($file, "movie not found!" . "\n");
+						fwrite($file, "movie not found! query result: " . $response->getBody() . "\n");
 					}
 				} else {
 					fwrite($file, "not 200!" . "\n");
