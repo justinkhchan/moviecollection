@@ -86,12 +86,12 @@ class WelcomeController extends Controller {
 		
 		$medianPrice = 0;
 		if ($numPriceDefined % 2 == 0) {
-			$medianPrice = (Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[$numPriceDefined / 2])->price;
+			$medianMovie = Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[$numPriceDefined / 2];
+			$medianPrice = $medianMovie->price;
 		} else {
-			$medianPrice = (
-				(Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[floor($numPriceDefined / 2)])->price
-				+ (Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[ceil($numPriceDefined / 2)])->price
-				) / 2;
+			$floorMovie = Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[floor($numPriceDefined / 2)];
+			$ceilMovie = Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[ceil($numPriceDefined / 2)];
+			$medianPrice = ($floorMovie->price + $ceilMovie->price) / 2;
 		}
 	
 		return view('statistics', ['title' => 'Statistics', 
