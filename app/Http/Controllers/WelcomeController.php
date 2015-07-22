@@ -70,6 +70,42 @@ class WelcomeController extends Controller {
 			]);
 	}
 	
+	public function statistics($assumePrice = '5')
+	{
+	
+		$numMovies = Movie::all()->count();
+		$numPriceDefined = Movie::whereNotNull('price')->where('price', '<>', 0)->count();
+		$totalSum = Movie::whereNotNull('price')->where('price', '<>', 0)->sum('price');
+		$totalSumAssume = $totalSum;
+		if (!is_float($assumePrice)) {
+			$assumePrice = 5;
+		}
+		$totalSumAssume = $totalSum + (($numMovies - $numPriceDefined) * $assumePrice);
+		$avgExcludeUndef = $totalSum / $numPriceDefined;
+		$avgIncludeUndef = $totalSum / $numMovies;
+		
+		$medianPrice = 0;
+		if ($numPriceDefined % 2 == 0) {
+			$medianPrice = (Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[$numPriceDefined / 2])->price;
+		} else {
+			$medianPrice = (
+				(Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[floor($numPriceDefined / 2)])->price
+				+ (Movie::whereNotNull('price')->where('price', '<>', 0)->orderBy('price')->get()[ceil($numPriceDefined / 2)])->price
+				) / 2;
+		}
+	
+		return view('statistics', ['title' => 'Statistics', 
+			'numMovies' => $numMovies,
+			'totalSum' => $totalSum,
+			'totalSumAssume' => $totalSumAssume,
+			'assumePrice' => $assumePrice,
+			'numPriceDefined' => $numPriceDefined,
+			'avgExcludeUndef' => $avgExcludeUndef,
+			'avgIncludeUndef' => $avgIncludeUndef,
+			'medianPrice' => $medianPrice,
+			]);
+	}
+	
 	public function testFunction()
 	{
 		//return "awefawf";

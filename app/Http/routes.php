@@ -13,6 +13,8 @@
 
 Route::get('/', 'WelcomeController@displayTable');
 
+Route::get('/statistics/{assumePrice?}', 'WelcomeController@statistics');
+
 Route::get('home', 'HomeController@index');
 
 Route::get('display_movies/{sortBy?}/{ascend?}', 'WelcomeController@displayTable');
